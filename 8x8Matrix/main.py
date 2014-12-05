@@ -31,6 +31,8 @@ def main():
     frames=loadFrames("./animations/%s" % file)
     while 1:
         for frame in frames:
+            if frame == "":
+                continue
             for x in range(goOverCount):
                 for l in frame:
                     if l == "1":
