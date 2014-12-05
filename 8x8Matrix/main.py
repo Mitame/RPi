@@ -34,8 +34,11 @@ def main():
             tick(pin.reset)
 if __name__ == "__main__":
     try:
-        main()
+        while 1:
+            main()
     except KeyboardInterrupt:
         pass
+    tick(pin.reset)
     GPIO.cleanup()
+    
         
