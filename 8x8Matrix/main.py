@@ -34,9 +34,9 @@ def main():
             for x in range(goOverCount):
                 for l in frame:
                     if l == "1":
-                        GPIO.output(pin.out,GPIO.LOW)
-                    else:
                         GPIO.output(pin.out,GPIO.HIGH)
+                    else:
+                        GPIO.output(pin.out,GPIO.LOW)
                     tick()
                     time.sleep(1/(frameSpeed*len(frame)*goOverCount))
                 tick(pin.reset)
