@@ -18,14 +18,14 @@ frames = f.read().split("\n")
 def tick(on=pin.clock):
     GPIO.output(on,GPIO.HIGH)
     GPIO.output(on,GPIO.LOW)
-
-for frame in frames:
-    for l in frame:
-        if l == "1":
-            GPIO.output(pin.input,GPIO.LOW)
-        else:
-            GPIO.output(pin.input,GPIO.HIGH)
-        tick()
-        time.sleep(1/(frameSpeed*len(frame)))
-    tick(pin.reset)
-    
+def main():
+    for frame in frames:
+        for l in frame:
+            if l == "1":
+                GPIO.output(pin.input,GPIO.LOW)
+            else:
+                GPIO.output(pin.input,GPIO.HIGH)
+            tick()
+            time.sleep(1/(frameSpeed*len(frame)))
+        tick(pin.reset)
+if __name__ == "__main__": main()
