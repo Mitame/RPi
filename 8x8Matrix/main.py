@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO #@UnresolvedImport
 import time
 
 frameSpeed = 25
+goOverCount = 5
 class pin():
     clock = 18
     reset = 23
@@ -22,14 +23,15 @@ def tick(on=pin.clock):
     GPIO.output(on,GPIO.LOW)
 def main():
     for frame in frames:
-        for l in frame:
-            if l == "1":
-                GPIO.output(pin.out,GPIO.LOW)
-            else:
-                GPIO.output(pin.out,GPIO.HIGH)
-            tick()
-            time.sleep(1/(frameSpeed*len(frame)))
-        tick(pin.reset)
+        for x in range(goOverCount):
+            for l in frame:
+                if l == "1":
+                    GPIO.output(pin.out,GPIO.LOW)
+                else:
+                    GPIO.output(pin.out,GPIO.HIGH)
+                tick()
+                time.sleep(1/(frameSpeed*len(frame)*goOverCount))
+            tick(pin.reset)
 if __name__ == "__main__":
     try:
         main()
