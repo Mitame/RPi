@@ -81,6 +81,8 @@ class Frame():
             area = ((0,0),frame.size)
         for y in range(min(frame.size[1],area[1][1])):
             for x in range(min(frame.size[0],area[1][0])):
+                if not (0<x+area[0][0]<frame.size[0]) or not(0<y+area[0][1]<frame.size[1]):
+                    self.set((x+pos[0],y+pos[1]),0)
                 self.set((x+pos[0],y+pos[1]),frame.get((x+area[0][0],y+area[0][1])))
 
     def __list__(self):
@@ -100,6 +102,7 @@ class Frame():
         for x in range(self.size[1]):
             newStr += "".join(str(x) for x in self.list[self.size[0]*x:self.size[0]*(x+1)])+"\n"
         return newStr
+    
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
     GPIO.output(on,GPIO.LOW)
