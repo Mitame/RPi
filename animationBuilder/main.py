@@ -85,7 +85,7 @@ def getInput():
             render()
         elif event.type == pygame.KEYDOWN:
             if event.unicode == "n":
-                newFrameList.append(copy.copy(curFrame))
+                newFrameList.append(copy.deepcopy(curFrame))
                 print("Added frame to list")
             elif event.unicode == "c":
                 for x in range(len(curFrame.list)):
