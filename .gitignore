@@ -60,3 +60,5 @@ logcat.txt
 .project
 .pydevproject
 
+#project specific files
+8x5Matrix/conf
