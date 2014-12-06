@@ -27,7 +27,7 @@ if onRPi:
                 pin.columnLight,pin.columnReset]:
         GPIO.setup(on,GPIO.OUT)
 
-class frame(list):
+class Frame(list):
     def __init__(self,size,defaultValue=0):
         self.size = size
         self.list = []
@@ -53,7 +53,9 @@ class frame(list):
             for y in range(self.size[1]):
                 if self.withinLimits((x-1,y)):
                     self.set((x-1,y),self.get((x,y)))
-                
+    
+    def __str__(self):
+        return str(self.list)
     
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
@@ -91,7 +93,7 @@ def renderFrameClass(frame):
 
 def renderFramesList(frames):
     for frm in frames:
-        renderFrameClass(frame)
+        renderFrameClass(frm)
         
 def scrollLeft(frame,filler="0"):
     newFrame = []
@@ -126,7 +128,7 @@ def importTextAni(name):
     size = len(xs),len(xs[0])
     for frm in x:
         oneline = frm.replace("\n","")
-        newFrame = frame(size, 0)
+        newFrame = Frame(size, 0)
         for bit in range(len(oneline)):
             newFrame.list[bit] = oneline[bit]
         newAni.append(newFrame)
