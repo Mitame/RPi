@@ -100,6 +100,10 @@ def getInput():
                 f.write("\n".join(str(frame) for frame in newFrameList))
                 f.close()
                 print("Saved %s frames" % str(len(newFrameList)))
+            elif event.unicode == "l":
+                curFrame.scroll()
+                print("Scrolled to the left")
+                render()
         elif event.type == pygame.QUIT:
             raise SystemExit
         
