@@ -83,6 +83,7 @@ def renderFrame(frame):
             
 def renderFrameClass(frame):
     for ow in range(overwrite):
+        pulse(pin.columnReset)
         for y in range(frame.size[1]):
             lowAll()
             pulse(pin.columnClk)
