@@ -140,7 +140,7 @@ def importTextAni(name):
 if __name__ == "__main__":
     try:
         charset = importDict()
-        x = importTextAni("test")
+        x = importTextAni("letters")
         while 1:
             renderFramesList(x)
     except KeyboardInterrupt:
