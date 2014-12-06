@@ -92,7 +92,7 @@ def renderFrameClass(frame):
 
 def renderFramesList(frames):
     for frm in frames:
-        renderFrameClass(frm.reverse())
+        renderFrameClass(frm)
         
 def scrollLeft(frame,filler="0"):
     newFrame = []
@@ -138,7 +138,7 @@ def importTextAni(name):
 if __name__ == "__main__":
     try:
         charset = importDict()
-        x = importTextAni("letters")
+        x = importTextAni("revletters")
         while 1:
             renderFramesList(x)
     except KeyboardInterrupt:
