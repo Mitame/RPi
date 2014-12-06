@@ -47,13 +47,13 @@ class Frame():
             
     def set(self,pos,value):
         if self.withinLimits(pos):
-            self[self.size[1]*pos[1]+pos[0]] = value
+            self[self.size[0]*pos[1]+pos[0]] = value
         else:
             raise IndexError("Position  %s is outside the limits of the frame" % str(pos))
     
     def get(self,pos):
         if self.withinLimits(pos):
-            return self[self.size[1]*pos[1]+pos[0]]
+            return self[self.size[0]*pos[1]+pos[0]]
         else:
             raise IndexError("Position  %s is outside the limits of the frame" % str(pos))
     
