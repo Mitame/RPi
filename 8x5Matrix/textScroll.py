@@ -144,6 +144,7 @@ def importDict(name="letters 5x5.txt"):
         y = char.split(" ")
         print(y[1])
         newDict[y[0]] = strToFrame(y[1].strip("\n"))
+    newDict[" "] = strToFrame("00000")
     return newDict
 
 def strToFrame(string):
