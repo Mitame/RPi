@@ -86,9 +86,10 @@ def renderFrameClass(frame):
         for y in range(frame.size[1]):
             lowAll()
             pulse(pin.columnClk)
-            for x in range(frame.size[0]):
+            for x in range(min(frame.size[0],5)):
                 if frame.get((x,y)):
                     GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
+                    
             time.sleep/(fps*overwrite*columns)
 
 def renderFramesList(frames):
@@ -130,7 +131,7 @@ def importTextAni(name):
         oneline = frm.replace("\n","")
         newFrame = Frame(size, 0)
         for bit in range(len(oneline)):
-            newFrame.list[bit] = oneline[bit]
+            newFrame.list[bit] = int(oneline[bit])
         newAni.append(newFrame)
     return newAni
             
