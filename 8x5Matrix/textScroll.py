@@ -139,8 +139,9 @@ def importDict(name="letters 5x5.txt"):
     x = f.split("\n\n")
     for char in x:
         y = char.split(" ")
-        newDict[y[0]] = y[1].strip("\n")
+        newDict[y[0]] = strToFrame(y[1])
     return newDict
+
 def strToFrame(string):
     xs = string.split("\n")
     size = len(xs),len(xs[0])
