@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import RPi.GPIO as GPIO #@UnresolvedImport
 import sys
 import time
@@ -21,15 +22,15 @@ for pin in [pin.row0,pin.row1,
             pin.columnLight,pin.columnReset]:
     GPIO.setup(pin,GPIO.OUT)
     
-def pulse(pin):
-    GPIO.output(pin,GPIO.HIGH)
-    GPIO.output(pin,GPIO.LOW)
+def pulse(on):
+    GPIO.output(on,GPIO.HIGH)
+    GPIO.output(on,GPIO.LOW)
     
 def lowAll():
-    for pin in [pin.row0,pin.row1,
+    for on in [pin.row0,pin.row1,
             pin.row2,pin.row3,
             pin.row4]:
-        GPIO.output(pin,GPIO.LOW)
+        GPIO.output(on,GPIO.LOW)
     
 def main():
     file = sys.argv[1]
