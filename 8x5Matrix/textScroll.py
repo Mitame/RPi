@@ -64,11 +64,11 @@ class Frame():
             for y in range(self.size[1]):
                 if self.withinLimits((x-1,y)):
                     self.set((x-1,y),self.get((x,y)))
+
     def flip(self,x=True,y=False):
         newlist = []
         for z in range(0,self.size[1]):
             newlist.append(self[self.size[0]*z:self.size[0]*(z+1)])
-        
         retlist = []
         for list in newlist:
             list.reverse()
@@ -181,7 +181,7 @@ def genTextScrollAni(text):
         
     for x in range(straightFrame.size[0]):
         newFrame = Frame((5,8))
-        newFrame.blit(straightFrame,straightFrame,((curColumn,0),newFrame.size))
+        newFrame.blit(straightFrame,(0,0),((curColumn,0),newFrame.size))
         frames.append(newFrame)
         curColumn += 1
     return frames
