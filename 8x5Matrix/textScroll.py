@@ -202,10 +202,17 @@ def genTextScrollAni(text,gapBetweenChars=1,startBlank=True):
         
 if __name__ == "__main__":
     try:
-        if len(sys.argv) > 1:
-            x = genTextScrollAni(" ".join(sys.argv[1:]))
-        else:
+        if len(sys.argv) == 1:
             x = genTextScrollAni("Hello, World!")
+        else:
+            if sys.argv[1].lower() == "text":
+                x = genTextScrollAni(" ".join(sys.argv[2:]))
+            elif sys.argv[1].lower() == "ani":
+                x = importTextAni(" ".join(sys.argv[2:]))
+            else:
+                print("Unrecoginsed command: %s"%sys.argv[1])
+                print("Quitting...")
+                raise SystemExit
         renderFramesList(x,True)
         while 1:
             renderFramesList(x,False)
