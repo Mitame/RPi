@@ -30,18 +30,18 @@ if onRPi:
 class Frame(list):
     def __init__(self,size,defaultValue=0):
         self.size = size
-        self.list = []
+        self = []
         for z in range(size[0]*size[1]):
-            self.list.append(defaultValue)
+            self.append(defaultValue)
     def set(self,pos,value):
         if self.withinLimits(pos):
-            self.list[self.size[1]*pos[0]+pos[1]] = value
+            self[self.size[1]*pos[0]+pos[1]] = value
         else:
             raise IndexError
     
     def get(self,pos):
         if self.withinLimits(pos):
-            return self.list[self.size[1]*pos[0]+pos[1]]
+            return self[self.size[1]*pos[0]+pos[1]]
         else:
             raise IndexError
     
@@ -53,9 +53,6 @@ class Frame(list):
             for y in range(self.size[1]):
                 if self.withinLimits((x-1,y)):
                     self.set((x-1,y),self.get((x,y)))
-    
-    def __str__(self):
-        return str(self.list)
     
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
@@ -81,26 +78,21 @@ def renderFrame(frame):
                     GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
             time.sleep(1/(fps*overwrite*columns))
             
-def renderFrameClass(frame,reverse = True):
+def renderFrameClass(frame):
     for ow in range(overwrite):
         pulse(pin.columnReset)
         for y in range(frame.size[1]):
             lowAll()
             pulse(pin.columnClk)
-            if reverse:
-                for x in range(min(frame.size[0],5)-1,-1,-1):
-                    if frame.get((x,y)):
-                        GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
-            else:
-                for x in range(min(frame.size[0],5)):
-                    if frame.get((x,y)):
-                        GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
+            for x in range(min(frame.size[0],5)):
+                if frame.get((x,y)):
+                    GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
                     
             time.sleep(1/(fps*overwrite*columns))
 
 def renderFramesList(frames):
     for frm in frames:
-        renderFrameClass(frm)
+        renderFrameClass(frm.reverse())
         
 def scrollLeft(frame,filler="0"):
     newFrame = []
@@ -137,7 +129,7 @@ def importTextAni(name):
         oneline = frm.replace("\n","")
         newFrame = Frame(size, 0)
         for bit in range(len(oneline)):
-            newFrame.list[bit] = int(oneline[bit])
+            newFrame[bit] = int(oneline[bit])
         newAni.append(newFrame)
     return newAni
             
