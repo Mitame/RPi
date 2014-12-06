@@ -8,9 +8,20 @@ import sys
 import time
 if onRPi:
     GPIO.setmode(GPIO.BCM)
-fps = 30
-overwrite = 5
-columns = 8
+    
+try:
+    f = open("conf").read().split("\n")
+    fps = int(f[0])
+    overwrite = int(f[1])
+    columns = int(f[2])
+except:
+    f = open("conf","w")
+    f.write("2\n75\n8")
+    f.close()
+    fps = 2
+    overwrite = 75
+    columns = 8
+
 class pin():
     row0 = 4
     row1 = 17
