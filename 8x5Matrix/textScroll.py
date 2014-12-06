@@ -199,7 +199,7 @@ def genTextScrollAni(text):
         
 if __name__ == "__main__":
     try:
-        x = genTextScrollAni("Hello, World!")
+        x = genTextScrollAni("Hello, World!")[0]
         while 1:
             renderFramesList(x,True)
     except KeyboardInterrupt:
