@@ -97,7 +97,7 @@ def getInput():
                     f = open("./%s" % " ".join(sys.argv[1]),"w")
                 else:
                     f = open("./temp","w")
-                f.write("\n\n".join(str(frame) for frame in newFrameList))
+                f.write("\n".join(str(frame) for frame in newFrameList))
                 f.close()
                 print("Saved %s frames" % str(len(newFrameList)))
         elif event.type == pygame.QUIT:
