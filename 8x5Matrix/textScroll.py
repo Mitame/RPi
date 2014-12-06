@@ -161,7 +161,7 @@ def importDict(name="letters 5x5.txt"):
 
 def strToFrame(string):
     xs = string.split("\n")
-    size = len(xs),len(xs[0])
+    size = len(xs[0]),len(xs)
     oneline = string.replace("\n","")
     newFrame = Frame(size, 0)
     for bit in range(len(oneline)):
