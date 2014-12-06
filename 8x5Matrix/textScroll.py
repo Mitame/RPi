@@ -81,7 +81,7 @@ def renderFrame(frame):
             
 def renderFramesClass(frames):
     for ow in range(overwrite):
-        for y in range(frames.size[1]):
+        for y in range(frames[0].size[1]):
             lowAll()
             pulse(pin.columnClk)
             for x in range(frames.size[0]):
@@ -132,9 +132,10 @@ def importTextAni(name):
         
 if __name__ == "__main__":
     try:
+        charset = importDict()
+        x = importTextAni("test")
         while 1:
-            charset = importDict()
-            scrollText(sys.argv[1])
+            renderFramesClass(x)
     except KeyboardInterrupt:
         pass
     pulse(pin.columnReset)
