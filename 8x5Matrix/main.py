@@ -38,11 +38,13 @@ def main():
     for frame in frames:
         for ow in range(overwrite):
             for column in frame.split("\n"):
+                lowAll()
                 pulse(pin.columnClk)
                 for x in range(5):
                     if column[x] == "1":
                         GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
-                    time.sleep(1/(fps*overwrite*columns))
+                time.sleep(1/(fps*overwrite*columns))
+                    
                 
     
 
