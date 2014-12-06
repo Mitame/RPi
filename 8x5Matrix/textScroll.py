@@ -81,15 +81,20 @@ def renderFrame(frame):
                     GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
             time.sleep(1/(fps*overwrite*columns))
             
-def renderFrameClass(frame):
+def renderFrameClass(frame,reverse = True):
     for ow in range(overwrite):
         pulse(pin.columnReset)
         for y in range(frame.size[1]):
             lowAll()
             pulse(pin.columnClk)
-            for x in range(min(frame.size[0],5)):
-                if frame.get((x,y)):
-                    GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
+            if reverse:
+                for x in range(min(frame.size[0],5)-1,-1,-1):
+                    if frame.get((x,y)):
+                        GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
+            else:
+                for x in range(min(frame.size[0],5)):
+                    if frame.get((x,y)):
+                        GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
                     
             time.sleep(1/(fps*overwrite*columns))
 
