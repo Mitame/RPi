@@ -95,6 +95,11 @@ class Frame():
         except IndexError:
             print(key,len(self.list))
     
+    def __str__(self):
+        newStr = ""
+        for x in range(self.size[1]):
+            newStr += "".join(str(x) for x in self.list[self.size[0]*x:self.size[0]*(x+1)])
+        return newStr
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
     GPIO.output(on,GPIO.LOW)
@@ -188,7 +193,7 @@ def genTextScrollAni(text):
             break
         frames.append(newFrame)
         curColumn += 1
-    return frames
+    return frames,straightFrame
          
             
         
