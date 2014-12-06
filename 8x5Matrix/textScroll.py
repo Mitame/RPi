@@ -14,7 +14,7 @@ columns = 8
 class pin():
     row0 = 4
     row1 = 17
-    row2 = 21
+    row2 = 27
     row3 = 22
     row4 = 25
     columnClk = 18
