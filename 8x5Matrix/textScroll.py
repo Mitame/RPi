@@ -86,7 +86,10 @@ class Frame():
         return self.list[key]
     
     def __setitem__(self,key,value):
-        self.list[key] = value
+        try:
+            self.list[key] = value
+        except IndexError:
+            print(key,len(self.list))
     
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
