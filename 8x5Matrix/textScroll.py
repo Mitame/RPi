@@ -196,13 +196,14 @@ def genTextScrollAni(text,gapBetweenChars=1,startBlank=True):
         newFrame = Frame((8,5))
         newFrame.blit(straightFrame,(0,0),((x,0),newFrame.size))
         frames.append(newFrame)
-    return frames,straightFrame
+    return frames
          
             
         
 if __name__ == "__main__":
     try:
         x = genTextScrollAni("Hello, World!")[0]
+        renderFramesList(x,True)
         while 1:
             renderFramesList(x,False)
     except KeyboardInterrupt:
