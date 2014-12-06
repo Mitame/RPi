@@ -152,7 +152,7 @@ def importDict(name="letters 5x5.txt"):
     for char in x:
         y = char.split(" ")
         newDict[y[0]] = strToFrame(y[1].strip("\n"))
-    newDict[" "] = strToFrame("00000")
+    newDict[" "] = strToFrame("000")
     return newDict
 
 def strToFrame(string):
@@ -172,7 +172,7 @@ def importTextAni(name):
         newAni.append(strToFrame(frm))
     return newAni
 
-def genTextScrollAni(text):
+def genTextScrollAni(text,gapBetweenChars=1):
     try:
         charset
     except NameError:
@@ -181,9 +181,9 @@ def genTextScrollAni(text):
     curColumn = 0
     textl = list(text)
     frames = []
-    straightFrame = Frame((len(text)*5,5))
+    straightFrame = Frame((len(text)*(charset["A"].size[0]+gapBetweenChars),charset["A"].size[1]))
     for x in range(len(textl)):
-        straightFrame.blit(charset[textl[x]], (x*5,0))
+        straightFrame.blit(charset[textl[x]], (x*(charset["A"].size[0]+gapBetweenChars),0))
         
     for x in range(straightFrame.size[0]):
         newFrame = Frame((5,8))
