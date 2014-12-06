@@ -202,7 +202,10 @@ def genTextScrollAni(text,gapBetweenChars=1,startBlank=True):
         
 if __name__ == "__main__":
     try:
-        x = genTextScrollAni("Hello, World!")
+        if len(sys.argv) > 1:
+            x = genTextScrollAni(" ".join(sys.argv[1:]))
+        else:
+            x = genTextScrollAni("Hello, World!")
         renderFramesList(x,True)
         while 1:
             renderFramesList(x,False)
