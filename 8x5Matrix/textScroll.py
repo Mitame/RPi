@@ -180,7 +180,7 @@ if __name__ == "__main__":
     try:
         x = importTextAni("letters")
         while 1:
-            renderFramesList(x,False)
+            renderFramesList(x,True)
     except KeyboardInterrupt:
         pass
     pulse(pin.columnReset)
