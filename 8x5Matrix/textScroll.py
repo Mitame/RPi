@@ -169,27 +169,26 @@ def importTextAni(name):
 
 def genTextScrollAni(text):
     try:
+        charset
+    except NameError:
+        global charset
+        charset = importDict()
+    curColumn = 0
+    textl = list(text)
+    frames = []
+    straightFrame = Frame((len(text)*5,5))
+    for x in range(len(textl)):
+        straightFrame.blit(charset[textl[x]], (x*5,0))
+        
+    for x in range(straightFrame.size[0]):
+        newFrame = Frame((5,8))
         try:
-            charset
-        except NameError:
-            global charset
-            charset = importDict()
-        curColumn = 0
-        textl = list(text)
-        frames = []
-        straightFrame = Frame((len(text)*5,5))
-        for x in range(len(textl)):
-            straightFrame.blit(charset[textl[x]], (x*5,0))
-            
-        for x in range(straightFrame.size[0]):
-            newFrame = Frame((5,8))
             newFrame.blit(straightFrame,(0,0),((curColumn,0),newFrame.size))
-            frames.append(newFrame)
-            curColumn += 1
-        return frames
-    except:
-        print("Failed:\n%s"%str(frames))
-        raise SystemExit
+        except:
+            break
+        frames.append(newFrame)
+        curColumn += 1
+    return frames
          
             
         
