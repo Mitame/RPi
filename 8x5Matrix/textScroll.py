@@ -141,19 +141,21 @@ def importDict(name="letters 5x5.txt"):
         y = char.split(" ")
         newDict[y[0]] = y[1].strip("\n")
     return newDict
+def strToFrame(string):
+    xs = string.split("\n")
+    size = len(xs),len(xs[0])
+    oneline = string.replace("\n","")
+    newFrame = Frame(size, 0)
+    for bit in range(len(oneline)):
+        newFrame[bit] = int(oneline[bit])
+    return newFrame
 
 def importTextAni(name):
     newAni = []
     f = open("animations/"+name).read()
     x = f.split("\n\n")
-    xs = x[0].split("\n")
-    size = len(xs),len(xs[0])
     for frm in x:
-        oneline = frm.replace("\n","")
-        newFrame = Frame(size, 0)
-        for bit in range(len(oneline)):
-            newFrame[bit] = int(oneline[bit])
-        newAni.append(newFrame)
+        newAni.append(strToFrame(frm))
     return newAni
 
 def genTextScrollAni(text):
