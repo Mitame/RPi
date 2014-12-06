@@ -27,21 +27,20 @@ if onRPi:
                 pin.columnLight,pin.columnReset]:
         GPIO.setup(on,GPIO.OUT)
 
-class Frame():
+class Frame(list):
     def __init__(self,size,defaultValue=0):
         self.size = size
-        self = []
         for z in range(size[0]*size[1]):
-            self.list.append(defaultValue)
+            self.append(defaultValue)
     def set(self,pos,value):
         if self.withinLimits(pos):
-            self.list[self.size[1]*pos[0]+pos[1]] = value
+            self[self.size[1]*pos[0]+pos[1]] = value
         else:
             raise IndexError
     
     def get(self,pos):
         if self.withinLimits(pos):
-            return self.list[self.size[1]*pos[0]+pos[1]]
+            return self[self.size[1]*pos[0]+pos[1]]
         else:
             raise IndexError
     
@@ -129,7 +128,7 @@ def importTextAni(name):
         oneline = frm.replace("\n","")
         newFrame = Frame(size, 0)
         for bit in range(len(oneline)):
-            newFrame.list[bit] = int(oneline[bit])
+            newFrame[bit] = int(oneline[bit])
         newAni.append(newFrame)
     return newAni
             
