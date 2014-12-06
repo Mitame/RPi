@@ -159,7 +159,7 @@ def importTextAni(name):
 def genTextScrollAni(text):
     try:
         charset
-    except ValueError:
+    except NameError:
         global charset
         charset = importDict()
     curColumn = 0
