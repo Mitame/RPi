@@ -190,7 +190,7 @@ def genTextScrollAni(text,gapBetweenChars=1,startBlank=True):
     if startBlank:
         for x in range(columns):
             newFrame = Frame((8,5))
-            newFrame.blit(straightFrame,(columns-x,0),((x,0),(x,5)))
+            newFrame.blit(straightFrame,(columns-x,0),((0,0),(x,5)))
             frames.append(newFrame)
     for x in range(straightFrame.size[0]):
         newFrame = Frame((8,5))
