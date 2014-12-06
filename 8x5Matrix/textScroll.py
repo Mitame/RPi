@@ -186,7 +186,7 @@ def genTextScrollAni(text,gapBetweenChars=1):
         straightFrame.blit(charset[textl[x]], (x*(charset["A"].size[0]+gapBetweenChars),0))
         
     for x in range(straightFrame.size[0]):
-        newFrame = Frame((5,8))
+        newFrame = Frame((8,5))
         try:
             newFrame.blit(straightFrame,(0,0),((curColumn,0),newFrame.size))
         except:
