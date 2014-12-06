@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO #@UnresolvedImport
 import sys
 import time
 GPIO.setmode(GPIO.BCM)
-fps = 25
+fps = 4
 overwrite = 5
 columns = 8
 class pin():
@@ -16,11 +16,11 @@ class pin():
     columnLight = 23
     columnReset = 24
 
-for pin in [pin.row0,pin.row1,
+for on in [pin.row0,pin.row1,
             pin.row2,pin.row3,
             pin.row4,pin.columnClk,
             pin.columnLight,pin.columnReset]:
-    GPIO.setup(pin,GPIO.OUT)
+    GPIO.setup(on,GPIO.OUT)
     
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
@@ -40,8 +40,8 @@ def main():
             for column in frame.split("\n"):
                 pulse(pin.columnClk)
                 for x in range(5):
-                    if column[x] == 1:
-                        GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4),GPIO.high)
+                    if column[x] == "1":
+                        GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4),GPIO.high)                    
                     time.sleep(1/(fps*overwrite*columns))
                 
     
