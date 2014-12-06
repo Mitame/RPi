@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 onRPi = True
 try:
-    import RPi.GPIO as GPIO #@UnresolvedImport
+    import RPi.GPIO as GPIO 
 except ImportError:
     onRPi = False
 import sys
@@ -27,11 +27,12 @@ if onRPi:
                 pin.columnLight,pin.columnReset]:
         GPIO.setup(on,GPIO.OUT)
 
-class Frame(list):
+class Frame():
     def __init__(self,size,defaultValue=0):
         self.size = size
+        self.list = list
         for z in range(size[0]*size[1]):
-            self.append(defaultValue)
+            self.list.append(defaultValue)
     def set(self,pos,value):
         if self.withinLimits(pos):
             self[self.size[1]*pos[0]+pos[1]] = value
@@ -61,8 +62,11 @@ class Frame(list):
         for list in newlist:
             list.reverse()
             retlist.extend(list)
-        return retlist
-        
+        self = retlist
+    
+    def __list__(self):
+        return self.list
+    
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
     GPIO.output(on,GPIO.LOW)
@@ -82,12 +86,13 @@ def renderFrame(frame,reverse = True):
         frame = frame.flip()
     for ow in range(overwrite):
         for column in frame.split("\n"):
+            startTime = time.time()
             lowAll()
             pulse(pin.columnClk)
             for x in range(5):
                 if column[x] == "1":
                     GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
-            time.sleep(1/(fps*overwrite*columns))
+            time.sleep(time.time()-startTime+(1/(fps*overwrite*columns)))
             
 def renderFrameClass(frame):
     for ow in range(overwrite):
