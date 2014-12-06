@@ -67,6 +67,12 @@ class Frame():
     def __list__(self):
         return self.list
     
+    def __getitem__(self,key):
+        return self.list[key]
+    
+    def __setitem(self,key,value):
+        self.list[key] = value
+    
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
     GPIO.output(on,GPIO.LOW)
