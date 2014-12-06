@@ -75,10 +75,13 @@ class Frame():
             retlist.extend(list)
         self.list = retlist
         
-    def blit(self,frame,pos):
-        for y in range(min(frame.size[1],self.size[1])):
-            for x in range(min(frame.size[0],self.size[0])):
-                self.set((x+pos[0],y+pos[1]),frame.get((x,y)))
+    def blit(self,frame,pos,area=None):
+        if area is None:
+            area = ((0,0),frame.size)
+        for y in range(min(frame.size[1],area[1][1])):
+            for x in range(min(frame.size[0],area[1][0])):
+                self.set((x+pos[0],y+pos[1]),frame.get((x+area[0][0],y+area[0][1])))
+
     def __list__(self):
         return self.list
     
@@ -179,7 +182,7 @@ def genTextScrollAni(text):
         
     for x in range(straightFrame.size[0]):
         newFrame = Frame((5,8))
-        newFrame.blit(straightFrame,straightFrame,(-curColumn,0))
+        newFrame.blit(straightFrame,straightFrame,((curColumn,0),newFrame.size))
         frames.append(newFrame)
         curColumn += 1
     return frames
