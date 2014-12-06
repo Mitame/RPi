@@ -129,7 +129,10 @@ def importTextAni(name):
         oneline = frm.replace("\n","")
         newFrame = Frame(size, 0)
         for bit in range(len(oneline)):
-            newFrame[bit] = int(oneline[bit])
+            try:
+                newFrame[bit] = int(oneline[bit])
+            except:
+                print(bit,list(oneline))
         newAni.append(newFrame)
     return newAni
             
