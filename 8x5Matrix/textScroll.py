@@ -48,7 +48,7 @@ class Frame():
         if self.withinLimits(pos):
             self[self.size[1]*pos[0]+pos[1]] = value
         else:
-            raise IndexError
+            raise IndexError("Position  %s is outside the limits of the frame" % str(pos))
     
     def get(self,pos):
         if self.withinLimits(pos):
@@ -145,7 +145,6 @@ def importDict(name="letters 5x5.txt"):
     x = f.split("\n\n")
     for char in x:
         y = char.split(" ")
-        print(y[1])
         newDict[y[0]] = strToFrame(y[1].strip("\n"))
     newDict[" "] = strToFrame("00000")
     return newDict
