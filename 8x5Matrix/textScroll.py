@@ -113,9 +113,9 @@ def renderFrameClass(frame,reverse = True):
                     
             time.sleep(time.time()-startTime+(1/(fps*overwrite*columns)))
 
-def renderFramesList(frames):
+def renderFramesList(frames,reverse = True):
     for frm in frames:
-        renderFrameClass(frm)
+        renderFrameClass(frm,reverse)
         
 def scrollLeft(frame,filler="0"):
     newFrame = []
@@ -180,7 +180,7 @@ if __name__ == "__main__":
     try:
         x = importTextAni("letters")
         while 1:
-            renderFramesList(x,false)
+            renderFramesList(x,False)
     except KeyboardInterrupt:
         pass
     pulse(pin.columnReset)
