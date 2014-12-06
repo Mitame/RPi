@@ -172,7 +172,7 @@ def importTextAni(name):
         newAni.append(strToFrame(frm))
     return newAni
 
-def genTextScrollAni(text,gapBetweenChars=1):
+def genTextScrollAni(text,gapBetweenChars=1,startBlank=True):
     try:
         charset
     except NameError:
@@ -184,13 +184,14 @@ def genTextScrollAni(text,gapBetweenChars=1):
     straightFrame = Frame((len(text)*(charset["A"].size[0]+gapBetweenChars),charset["A"].size[1]))
     for x in range(len(textl)):
         straightFrame.blit(charset[textl[x]], (x*(charset["A"].size[0]+gapBetweenChars),0))
-        
+    if startBlank:
+        for x in range(columns):
+            newFrame = Frame((8,5))
+            newFrame.blit(newFrame.blit(straightFrame,(columns-x,0),((x,0),(x,5))))
+            frames.append(newFrame)
     for x in range(straightFrame.size[0]):
         newFrame = Frame((8,5))
-        try:
-            newFrame.blit(straightFrame,(0,0),((curColumn,0),newFrame.size))
-        except:
-            break
+        newFrame.blit(straightFrame,(0,0),((curColumn,0),newFrame.size))
         frames.append(newFrame)
         curColumn += 1
     return frames,straightFrame
