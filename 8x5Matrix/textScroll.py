@@ -79,16 +79,20 @@ def renderFrame(frame):
                     GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
             time.sleep(1/(fps*overwrite*columns))
             
-def renderFramesClass(frames):
+def renderFrameClass(frame):
     for ow in range(overwrite):
-        for y in range(frames[0].size[1]):
+        for y in range(frame.size[1]):
             lowAll()
             pulse(pin.columnClk)
-            for x in range(frames.size[0]):
-                if frames.get((x,y)):
+            for x in range(frame.size[0]):
+                if frame.get((x,y)):
                     GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
             time.sleep/(fps*overwrite*columns)
-            
+
+def renderFramesList(frames):
+    for frm in frames:
+        renderFrameClass(frame)
+        
 def scrollLeft(frame,filler="0"):
     newFrame = []
     for x in frame.split("\n"):
@@ -135,7 +139,7 @@ if __name__ == "__main__":
         charset = importDict()
         x = importTextAni("test")
         while 1:
-            renderFramesClass(x)
+            renderFramesList(x)
     except KeyboardInterrupt:
         pass
     pulse(pin.columnReset)
