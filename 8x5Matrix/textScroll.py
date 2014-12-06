@@ -125,7 +125,7 @@ def renderFrameClass(frame,reverse = True):
             pulse(pin.columnClk)
             for y in range(min(frame.size[1],5)):
                 if frame.get((x,y)):
-                    GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
+                    GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[y],GPIO.HIGH)
                     
             time.sleep(time.time()-startTime+(1/(fps*overwrite*columns)))
 
