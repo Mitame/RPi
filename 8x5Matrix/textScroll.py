@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+onRPi = True
+try:
+    import RPi.GPIO as GPIO #@UnresolvedImport
+except ImportError:
+    onRPi = False
+import sys
+import time
+if onRPi:
+    GPIO.setmode(GPIO.BCM)
+fps = 1
+overwrite = 5
+columns = 8
+class pin():
+    row0 = 4
+    row1 = 17
+    row2 = 21
+    row3 = 22
+    row4 = 25
+    columnClk = 18
+    columnLight = 23
+    columnReset = 24
+if onRPi:
+    for on in [pin.row0,pin.row1,
+                pin.row2,pin.row3,
+                pin.row4,pin.columnClk,
+                pin.columnLight,pin.columnReset]:
+        GPIO.setup(on,GPIO.OUT)
+
+class frame(list):
+    def __init__(self,size,defaultValue=0):
+        self.size = size
+        self.list = []
+        for z in range(size[0]*size[1]):
+            self.list.append(defaultValue)
+    def set(self,pos,value):
+        if self.withinLimits(pos):
+            self.list[self.size[1]*pos[0]+pos[1]] = value
+        else:
+            raise IndexError
+    
+    def get(self,pos):
+        if self.withinLimits(pos):
+            return self.list[self.size[1]*pos[0]+pos[1]]
+        else:
+            raise IndexError
+    
+    def withinLimits(self,pos):
+        return 0<=pos[0]<self.size[0] and 0<=pos[1]<self.size[1] 
+    
+    def scroll(self):
+        for x in range(self.size[0]):
+            for y in range(self.size[1]):
+                if self.withinLimits((x-1,y)):
+                    self.set((x-1,y),self.get((x,y)))
+                
+    
+def pulse(on):
+    GPIO.output(on,GPIO.HIGH)
+    GPIO.output(on,GPIO.LOW)
+    
+def lowAll():
+    for on in [pin.row0,pin.row1,
+            pin.row2,pin.row3,
+            pin.row4]:
+        GPIO.output(on,GPIO.LOW)
+    
+def renderFrames(frames):
+    for frame in frames:
+        renderFrame(frame)
+        
+def renderFrame(frame):
+    for ow in range(overwrite):
+        for column in frame.split("\n"):
+            lowAll()
+            pulse(pin.columnClk)
+            for x in range(5):
+                if column[x] == "1":
+                    GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
+            time.sleep(1/(fps*overwrite*columns))
+            
+def renderFramesClass(frames):
+    for ow in range(overwrite):
+        for y in range(frames.size[1]):
+            lowAll()
+            pulse(pin.columnClk)
+            for x in range(frames.size[0]):
+                if frames.get((x,y)):
+                    GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
+            time.sleep/(fps*overwrite*columns)
+            
+def scrollLeft(frame,filler="0"):
+    newFrame = []
+    for x in frame.split("\n"):
+        newFrame.append(x[1:]+filler)
+    return newFrame
+    
+             
+def scrollText(text):
+    frame = "00000\n00000\n00000\n00000\n00000\n00000\n00000\n00000"
+    for char in text:
+        curColumn = 0
+        charFrame = charset[char]
+        for x in range(len(charFrame.split("\n")[0])):
+            frame[x]
+    
+
+def importDict(name="letters 5x5.txt"):
+    newDict={}
+    f = open(name).read()
+    x = f.split("\n\n")
+    for char in x:
+        y = x.split(" ")
+        newDict[y[0]] = y[1].strip("\n")
+    return newDict
+
+def importTextAni(name):
+    newAni = []
+    f = open("animations/"+name).read()
+    x = f.split("\n\n")
+    xs = x[0].split("\n")
+    size = len(xs),len(xs[0])
+    for frm in x:
+        oneline = frm.replace("\n","")
+        newFrame = frame(size, 0)
+        for bit in range(len(oneline)):
+            newFrame.list[bit] = oneline[bit]
+        newAni.append(newFrame)
+    return newAni
+            
+            
+        
+if __name__ == "__main__":
+    try:
+        while 1:
+            charset = importDict()
+            scrollText(sys.argv[1])
+    except KeyboardInterrupt:
+        pass
+    pulse(pin.columnReset)
+    GPIO.cleanup()
