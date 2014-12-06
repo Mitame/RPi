@@ -63,7 +63,10 @@ class Frame():
             list.reverse()
             retlist.extend(list)
         self.list = retlist
-    
+    def blit(self,frame,pos):
+        for y in range(frame.size[1]):
+            for x in range(frame.size[0]):
+                self.set((x+pos[0],y+pos[1]),frame.get((x,y)))
     def __list__(self):
         return self.list
     
@@ -81,36 +84,22 @@ def lowAll():
     for on in [pin.row0,pin.row1,
             pin.row2,pin.row3,
             pin.row4]:
-        GPIO.output(on,GPIO.LOW)
-    
-def renderFrames(frames):
-    for frame in frames:
-        renderFrame(frame)
-        
-def renderFrame(frame,reverse = True):
-    if reverse:
-        frame = frame.flip()
-    for ow in range(overwrite):
-        for column in frame.split("\n"):
-            startTime = time.time()
-            lowAll()
-            pulse(pin.columnClk)
-            for x in range(5):
-                if column[x] == "1":
-                    GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
-            time.sleep(time.time()-startTime+(1/(fps*overwrite*columns)))
+        GPIO.output(on,GPIO.LOW)        
             
-def renderFrameClass(frame):
+def renderFrameClass(frame,reverse = True):
+    if reverse:
+        frame.flip()
     for ow in range(overwrite):
         pulse(pin.columnReset)
         for y in range(frame.size[1]):
+            startTime = time.time()
             lowAll()
             pulse(pin.columnClk)
             for x in range(min(frame.size[0],5)):
                 if frame.get((x,y)):
                     GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
                     
-            time.sleep(1/(fps*overwrite*columns))
+            time.sleep(time.time()-startTime+(1/(fps*overwrite*columns)))
 
 def renderFramesList(frames):
     for frm in frames:
@@ -154,12 +143,29 @@ def importTextAni(name):
             newFrame[bit] = int(oneline[bit])
         newAni.append(newFrame)
     return newAni
-            
+
+def genTextScrollAni(text):
+    try:
+        charset
+    except ValueError:
+        global charset
+        charset = importDict()
+    curColumn = 0
+    textl = list(text)
+    frames = []
+    straightFrame = Frame((len(text)*5,5))
+    for x in range(len(textl)):
+        straightFrame.blit(charset[textl[x]], (x*5,0))
+        
+    for x in range(straightFrame.size[0]):
+        newFrame = Frame((5,8))
+        
+    return frames
+         
             
         
 if __name__ == "__main__":
     try:
-        charset = importDict()
         x = importTextAni("revletters")
         while 1:
             renderFramesList(x)
