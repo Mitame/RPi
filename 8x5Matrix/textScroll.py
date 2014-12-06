@@ -76,8 +76,8 @@ class Frame():
         self.list = retlist
         
     def blit(self,frame,pos):
-        for y in range(frame.size[1]):
-            for x in range(frame.size[0]):
+        for y in range(min(frame.size[1],self.size[1])):
+            for x in range(min(frame.size[0],self.size[0])):
                 self.set((x+pos[0],y+pos[1]),frame.get((x,y)))
     def __list__(self):
         return self.list
@@ -171,14 +171,16 @@ def genTextScrollAni(text):
         
     for x in range(straightFrame.size[0]):
         newFrame = Frame((5,8))
-        
+        newFrame.blit(straightFrame,straightFrame,(-curColumn,0))
+        frames.append(newFrame)
+        curColumn += 1
     return frames
          
             
         
 if __name__ == "__main__":
     try:
-        x = importTextAni("letters")
+        x = genTextScrollAni("Hello, World!")
         while 1:
             renderFramesList(x,True)
     except KeyboardInterrupt:
