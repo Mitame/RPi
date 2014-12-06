@@ -204,7 +204,7 @@ if __name__ == "__main__":
     try:
         x = genTextScrollAni("Hello, World!")[0]
         while 1:
-            renderFramesList(x,True)
+            renderFramesList(x,False)
     except KeyboardInterrupt:
         pass
     pulse(pin.columnReset)
