@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO #@UnresolvedImport
 import sys
 import time
 GPIO.setmode(GPIO.BCM)
-fps = 4
+fps = 1
 overwrite = 5
 columns = 8
 class pin():
@@ -41,7 +41,7 @@ def main():
                 pulse(pin.columnClk)
                 for x in range(5):
                     if column[x] == "1":
-                        GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4),GPIO.high)                    
+                        GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
                     time.sleep(1/(fps*overwrite*columns))
                 
     
