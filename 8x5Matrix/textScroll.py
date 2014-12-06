@@ -56,13 +56,14 @@ class Frame():
     def flip(self,x=True,y=False):
         newlist = []
         for z in range(0,self.size[1]):
-            newlist.append(self[self.size[0]:self.size[0]*z])
+            newlist.append(self[self.size[0]*z:self.size[0]*(z+1)])
         
         retlist = []
         for list in newlist:
             list.reverse()
             retlist.extend(list)
         self.list = retlist
+        
     def blit(self,frame,pos):
         for y in range(frame.size[1]):
             for x in range(frame.size[0]):
@@ -166,7 +167,7 @@ def genTextScrollAni(text):
         
 if __name__ == "__main__":
     try:
-        x = importTextAni("revletters")
+        x = importTextAni("letters")
         while 1:
             renderFramesList(x)
     except KeyboardInterrupt:
