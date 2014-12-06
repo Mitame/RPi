@@ -90,7 +90,7 @@ def renderFrameClass(frame):
                 if frame.get((x,y)):
                     GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
                     
-            time.sleep/(fps*overwrite*columns)
+            time.sleep(1/(fps*overwrite*columns))
 
 def renderFramesList(frames):
     for frm in frames:
