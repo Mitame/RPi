@@ -52,7 +52,17 @@ class Frame(list):
             for y in range(self.size[1]):
                 if self.withinLimits((x-1,y)):
                     self.set((x-1,y),self.get((x,y)))
-    
+    def flip(self,x=True,y=False):
+        newlist = []
+        for z in range(0,self.size[1]):
+            newlist.append(self[self.size[0]:self.size[0]*z])
+        
+        retlist = []
+        for list in newlist:
+            list.reverse()
+            retlist.extend(list)
+        return retlist
+        
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
     GPIO.output(on,GPIO.LOW)
@@ -67,7 +77,9 @@ def renderFrames(frames):
     for frame in frames:
         renderFrame(frame)
         
-def renderFrame(frame):
+def renderFrame(frame,reverse = True):
+    if reverse:
+        frame = frame.flip()
     for ow in range(overwrite):
         for column in frame.split("\n"):
             lowAll()
@@ -84,7 +96,7 @@ def renderFrameClass(frame):
             lowAll()
             pulse(pin.columnClk)
             for x in range(min(frame.size[0],5)):
-                if frame.get((x,-y)):
+                if frame.get((x,y)):
                     GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[x],GPIO.HIGH)
                     
             time.sleep(1/(fps*overwrite*columns))
