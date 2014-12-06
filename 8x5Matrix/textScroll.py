@@ -110,7 +110,7 @@ def importDict(name="letters 5x5.txt"):
     f = open(name).read()
     x = f.split("\n\n")
     for char in x:
-        y = x.split(" ")
+        y = char.split(" ")
         newDict[y[0]] = y[1].strip("\n")
     return newDict
 
