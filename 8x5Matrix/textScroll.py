@@ -30,7 +30,7 @@ if onRPi:
 class Frame():
     def __init__(self,size,defaultValue=0):
         self.size = size
-        self.list = list
+        self.list = []
         for z in range(size[0]*size[1]):
             self.list.append(defaultValue)
     def set(self,pos,value):
