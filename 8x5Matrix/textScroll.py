@@ -62,7 +62,7 @@ class Frame():
         for list in newlist:
             list.reverse()
             retlist.extend(list)
-        self = retlist
+        self.list = retlist
     
     def __list__(self):
         return self.list
@@ -70,7 +70,7 @@ class Frame():
     def __getitem__(self,key):
         return self.list[key]
     
-    def __setitem(self,key,value):
+    def __setitem__(self,key,value):
         self.list[key] = value
     
 def pulse(on):
