@@ -8,110 +8,49 @@ import sys
 import time
 if onRPi:
     GPIO.setmode(GPIO.BCM)
-    
-try:
-    f = open("conf").read().split("\n")
-    fps = int(f[0])
-    overwrite = int(f[1])
-    columns = int(f[2])
-except:
-    f = open("conf","w")
-    f.write("2\n75\n8")
-    f.close()
-    fps = 2
-    overwrite = 75
-    columns = 8
+from objects import Frame #@UnresolvedImport
+
+def loadConfig():
+    global fps, overwrite,columns
+    try:
+        f = open("conf").read().split("\n")
+        co = {}
+        for x in f:
+            y = x.split("=")
+            co[y[0].lower()] = y[1]
+        fps = int(co["fps"])
+        overwrite = int(co["overwrite"])
+        columns = int(co["columns"])
+    except:
+        fps = 2
+        overwrite = 75
+        columns = 8
+        f = open("conf","w")
+        f.write("fps="+str(fps)+
+                "\noverwrite="+str(overwrite)+
+                "\ncolumns="+str(columns))
+        f.close()
 
 class pin():
-    row0 = 4
-    row1 = 17
-    row2 = 27
-    row3 = 22
-    row4 = 25
+    row = [4,17,27,22,25]
     columnClk = 18
     columnLight = 23
     columnReset = 24
+    all = []
+
+pin.all.extend(pin.row)
+pin.all.extend((pin.columnClk,pin.columnLight,pin.columnReset))
+
 if onRPi:
-    for on in [pin.row0,pin.row1,
-                pin.row2,pin.row3,
-                pin.row4,pin.columnClk,
-                pin.columnLight,pin.columnReset]:
+    for on in pin.all:
         GPIO.setup(on,GPIO.OUT)
-
-class Frame():
-    def __init__(self,size,defaultValue=0):
-        self.size = size
-        self.list = []
-        for z in range(size[0]*size[1]):
-            self.list.append(defaultValue)
-            
-    def set(self,pos,value):
-        if self.withinLimits(pos):
-            self[self.size[0]*pos[1]+pos[0]] = value
-        else:
-            raise IndexError("Position  %s is outside the limits of the frame" % str(pos))
-    
-    def get(self,pos):
-        if self.withinLimits(pos):
-            return self[self.size[0]*pos[1]+pos[0]]
-        else:
-            raise IndexError("Position  %s is outside the limits of the frame" % str(pos))
-    
-    def withinLimits(self,pos):
-        return 0<=pos[0]<self.size[0] and 0<=pos[1]<self.size[1] 
-    
-    def scroll(self):
-        for x in range(self.size[0]):
-            for y in range(self.size[1]):
-                if self.withinLimits((x-1,y)):
-                    self.set((x-1,y),self.get((x,y)))
-
-    def flip(self,x=True,y=False):
-        newlist = []
-        for z in range(0,self.size[1]):
-            newlist.append(self[self.size[0]*z:self.size[0]*(z+1)])
-        retlist = []
-        for list in newlist:
-            list.reverse()
-            retlist.extend(list)
-        self.list = retlist
-        
-    def blit(self,frame,pos,area=None):
-        if area is None:
-            area = ((0,0),frame.size)
-        for y in range(min(frame.size[1],area[1][1])):
-            for x in range(min(frame.size[0],area[1][0])):
-                if frame.withinLimits((x+area[0][0],y+area[0][1])):
-                    self.set((x+pos[0],y+pos[1]),frame.get((x+area[0][0],y+area[0][1])))
-                else:
-                    self.set((x+pos[0],y+pos[1]),0)
-
-    def __list__(self):
-        return self.list
-    
-    def __getitem__(self,key):
-        return self.list[key]
-    
-    def __setitem__(self,key,value):
-        try:
-            self.list[key] = value
-        except IndexError:
-            print(key,len(self.list))
-    
-    def __str__(self):
-        newStr = ""
-        for x in range(self.size[1]):
-            newStr += "".join(str(x) for x in self.list[self.size[0]*x:self.size[0]*(x+1)])+"\n"
-        return newStr
     
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
     GPIO.output(on,GPIO.LOW)
     
 def lowAll():
-    for on in [pin.row0,pin.row1,
-            pin.row2,pin.row3,
-            pin.row4]:
+    for on in pin.row:
         GPIO.output(on,GPIO.LOW)        
             
 def renderFrameClass(frame,reverse = True):
@@ -125,7 +64,7 @@ def renderFrameClass(frame,reverse = True):
             pulse(pin.columnClk)
             for y in range(min(frame.size[1],5)):
                 if frame.get((x,y)):
-                    GPIO.output((pin.row0,pin.row1,pin.row2,pin.row3,pin.row4)[y],GPIO.HIGH)
+                    GPIO.output(pin.row[y],GPIO.HIGH)
                     
             time.sleep(time.time()-startTime+(1/(fps*overwrite*columns)))
 
@@ -202,6 +141,7 @@ def genTextScrollAni(text,gapBetweenChars=1,startBlank=True):
         
 if __name__ == "__main__":
     try:
+        loadConfig()
         if len(sys.argv) == 1:
             x = genTextScrollAni("Hello, World!")
         else:
