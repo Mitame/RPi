@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-onRPi = True
-try:
-    import RPi.GPIO as GPIO 
-except ImportError:
-    onRPi = False
+
 import sys
 import time
-if onRPi:
-    GPIO.setmode(GPIO.BCM)
-from objects import Frame #@UnresolvedImport
+import os
+import RPi.GPIO as GPIO 
+
+if os.path.curdir.split("/")[-1] == "Matrix":
+    os.chdir("..")
+
+from Matrix.objects import Frame 
+
+
 
 def loadConfig():
     global fps, overwrite,columns
@@ -41,9 +43,8 @@ class pin():
 pin.all.extend(pin.row)
 pin.all.extend((pin.columnClk,pin.columnLight,pin.columnReset))
 
-if onRPi:
-    for on in pin.all:
-        GPIO.setup(on,GPIO.OUT)
+for on in pin.all:
+    GPIO.setup(on,GPIO.OUT)
     
 def pulse(on):
     GPIO.output(on,GPIO.HIGH)
@@ -109,7 +110,7 @@ def strToFrame(string):
 
 def importTextAni(name):
     newAni = []
-    f = open("animations/"+name).read()
+    f = open("Matrix/animations/"+name).read()
     x = f.split("\n\n")
     for frm in x:
         newAni.append(strToFrame(frm))
@@ -141,6 +142,7 @@ def genTextScrollAni(text,gapBetweenChars=1,startBlank=True):
         
 if __name__ == "__main__":
     try:
+        GPIO.setmode(GPIO.BCM)
         loadConfig()
         if len(sys.argv) == 1:
             x = genTextScrollAni("Hello, World!")
