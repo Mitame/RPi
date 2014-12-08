@@ -67,7 +67,7 @@ def renderFrameClass(frame,reverse = True):
             startTime = time.time()
             lowAll()
             pulse(pin.columnClk)
-            for y in range(min(frame.size[1],5)):
+            for y in range(min(frame.size[1],len(pin.row))):
                 if frame.get((x,y)):
                     GPIO.output(pin.row[y],GPIO.HIGH)
                     
@@ -133,11 +133,11 @@ def genTextScrollAni(text,gapBetweenChars=1,startBlank=True):
         straightFrame.blit(charset[textl[x]], (x*(charset["A"].size[0]+gapBetweenChars),0))
     if startBlank:
         for x in range(columns):
-            newFrame = Frame((8,5))
-            newFrame.blit(straightFrame,(columns-x,0),((0,0),(x,5)))
+            newFrame = Frame((8,len(pin.row)))
+            newFrame.blit(straightFrame,(columns-x,0),((0,0),(x,len(pin.row))))
             frames.append(newFrame)
     for x in range(straightFrame.size[0]):
-        newFrame = Frame((8,5))
+        newFrame = Frame((8,len(pin.row)))
         newFrame.blit(straightFrame,(0,0),((x,0),newFrame.size))
         frames.append(newFrame)
     return frames
