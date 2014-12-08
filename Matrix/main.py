@@ -25,11 +25,11 @@ def loadConfig():
         fps = int(co["fps"])
         overwrite = int(co["overwrite"])
         columns = int(co["columns"])
-    except:
+    except FileNotFoundError:
         fps = 2
         overwrite = 75
         columns = 8
-        f = open("conf","w")
+        f = open("./Matrix/conf","w")
         f.write("fps="+str(fps)+
                 "\noverwrite="+str(overwrite)+
                 "\ncolumns="+str(columns))
