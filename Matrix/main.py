@@ -38,7 +38,7 @@ def loadConfig():
         f.close()
 
 class pin():
-    row = [4,17,27,22,25]
+    row = [4,17,27,22,25,10,9,11]
     columnClk = 18
     columnLight = 23
     columnReset = 24
