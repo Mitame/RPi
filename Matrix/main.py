@@ -91,7 +91,7 @@ def scrollText(text):
             frame[x]
     
 
-def importDict(name="letters 5x5.txt"):
+def importDict(name="./Matrix/letters 5x5.txt"):
     newDict={}
     f = open(name).read()
     x = f.split("\n\n")
