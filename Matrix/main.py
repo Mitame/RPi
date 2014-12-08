@@ -17,7 +17,7 @@ GPIO.setmode(GPIO.BCM)
 def loadConfig():
     global fps, overwrite,columns
     try:
-        f = open("./Matrix/conf").read().split("\n")
+        f = open("./Matrix/conf").read().strip().split("\n")
         co = {}
         for x in f:
             y = x.split("=")
