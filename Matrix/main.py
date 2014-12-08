@@ -3,19 +3,21 @@
 import sys
 import time
 import os
-import RPi.GPIO as GPIO 
+import RPi.GPIO as GPIO  #@UnresolvedImport
 
 if os.path.curdir.split("/")[-1] == "Matrix":
     os.chdir("..")
 
-from Matrix.objects import Frame 
+from objects import Frame  #@UnresolvedImport 
+
+GPIO.setmode(GPIO.BCM)
 
 
 
 def loadConfig():
     global fps, overwrite,columns
     try:
-        f = open("conf").read().split("\n")
+        f = open("./Matrix/conf").read().split("\n")
         co = {}
         for x in f:
             y = x.split("=")
