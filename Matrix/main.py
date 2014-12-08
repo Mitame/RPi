@@ -25,7 +25,9 @@ def loadConfig():
         fps = int(co["fps"])
         overwrite = int(co["overwrite"])
         columns = int(co["columns"])
-    except ValueError:
+    except IndexError:
+        print((x,y))
+    except:
         fps = 2
         overwrite = 75
         columns = 8
