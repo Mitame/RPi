@@ -43,10 +43,12 @@ class Frame():
             area = ((0,0),frame.size)
         for y in range(min(frame.size[1],area[1][1])):
             for x in range(min(frame.size[0],area[1][0])):
-                if frame.withinLimits((x+area[0][0],y+area[0][1])):
+                if frame.withinLimits((x+area[0][0],y+area[0][1])) and self.withinLimits((x+pos[0],y+pos[1])):
                     self.set((x+pos[0],y+pos[1]),frame.get((x+area[0][0],y+area[0][1])))
-                else:
+                elif self.withinLimits((x+pos[0],y+pos[1])):
                     self.set((x+pos[0],y+pos[1]),0)
+                else:
+                    pass
 
     def __list__(self):
         return self.list
