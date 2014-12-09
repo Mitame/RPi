@@ -9,15 +9,15 @@ if os.path.curdir.split("/")[-1] == "Matrix":
     os.chdir("..")
 
 from Matrix.objects import Frame
+from Matrix.run import loadConfig
 
-ledSize = (50,50)
-matrixSize = (8,5)
-
-class images():
-    on = pygame.Surface(ledSize)
-    off = pygame.Surface(ledSize)
-pygame.draw.circle(images.on,(0,255,0),tuple(ledSize[x]//2 for x in range(2)),ledSize[0]//2)
-pygame.draw.circle(images.off,(50,50,50),tuple(ledSize[x]//2 for x in range(2)),ledSize[0]//2)
+def loadImages():
+    global images
+    class images():
+        on = pygame.Surface(ledSize)
+        off = pygame.Surface(ledSize)
+    pygame.draw.circle(images.on,(0,255,0),tuple(ledSize[x]//2 for x in range(2)),ledSize[0]//2)
+    pygame.draw.circle(images.off,(50,50,50),tuple(ledSize[x]//2 for x in range(2)),ledSize[0]//2)
 
 
 def getInput():
@@ -61,7 +61,9 @@ def render():
     pygame.display.flip()
 
 def main():
-    global newFrameList,curFrame,screen
+    global newFrameList,curFrame,screen,fps,overwrite,matrixSize,ledSize
+    fps,overwrite,matrixSize,ledSize = loadConfig()
+    loadImages()
     newFrameList = []
     curFrame = Frame(matrixSize,0)
     screen = pygame.display.set_mode(tuple(ledSize[x]*matrixSize[x] for x in range(2)))
